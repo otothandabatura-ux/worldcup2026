@@ -1434,6 +1434,9 @@ function generateHotTopics() {
     const hlHasComeback = /comeback|fight back|rally/i.test(hlText);
 
 
+    // 构建进球摘要（提前到 zb 匹配之前，避免 TDZ 错误）
+    const scorerLine = goalSummary(hGoals) + (aGoals.length ? ' | ' + goalSummary(aGoals) : '');
+
     // 匹配直播吧标题
     const zb = ZHIBO8_HEADLINES.find(z =>
       (z.h === m.h && z.a === m.a) || (z.h === m.a && z.a === m.h)
@@ -1457,8 +1460,6 @@ function generateHotTopics() {
     let emoji = '📋';
     let title = '';
     let desc = '';
-
-    const scorerLine = goalSummary(hGoals) + (aGoals.length ? ' | ' + goalSummary(aGoals) : '');
     const winner = hWin ? m.h : m.a;
     const loser = hWin ? m.a : m.h;
     const hero = topScorer ? topScorer[0] : '';
