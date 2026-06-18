@@ -130,14 +130,7 @@
   [data-theme="light"] .theme-toggle{background:rgba(255,252,248,0.9);border-color:rgba(0,0,0,0.08);}
   .theme-toggle{position:fixed;top:12px;right:12px;z-index:100;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text-dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:all 0.3s;}
   .theme-toggle:hover{background:var(--card-hover);color:var(--accent);}
-  .share-bar{margin-top:10px;text-align:center;}
-  .share-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s;}
-  .share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,212,170,0.3);}
-  .share-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
-  .share-modal canvas{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);}
-  .share-actions{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:201;}
-  .share-actions button{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;backdrop-filter:blur(10px);transition:all 0.2s;}
-  .share-actions button:hover{background:var(--accent);color:#fff;}
+
   /* 对阵图 */
   .bracket-wrap{overflow-x:auto;padding:10px 0;}
   .bracket-round{display:inline-flex;flex-direction:column;gap:8px;min-width:140px;vertical-align:top;}
@@ -1378,8 +1371,7 @@ function card(m,sp=false){
     const p=pred(m.h,m.a);
     pr=`<div class="pred"><div class="pred-h"><span class="ai">AI</span><span>胜负预测</span></div><div class="pred-bars"><div class="pred-bar h" style="width:${p.hw}%"></div><div class="pred-bar d" style="width:${p.dr}%"></div><div class="pred-bar a" style="width:${p.aw}%"></div></div><div class="pred-lbl"><div>${m.h} <span class="pct">${p.hw}%</span></div><div>平 <span class="pct">${p.dr}%</span></div><div>${m.a} <span class="pct">${p.aw}%</span></div></div><div class="pred-txt">${p.an}</div></div>`;
   }
-  const shareBtn=ft?`<div class="share-bar"><button class="share-btn" onclick="shareCard(this,'${m.h}','${m.a}',${m.hs},${m.as},'${m.d}','${m.g}')">📤 生成分享卡片</button></div>`:'';
-  return`<div class="card fade-in"><div class="m-meta"><span class="m-group">${m.g} 组</span><span class="m-venue">${m.v}${m.att?' · '+m.att+'人':''}</span><span class="m-status ${sc}">${st}</span></div><div class="m-teams"><div class="t"><div class="t-flag">${flagImg(ht?.f||'xx')}</div><div class="t-name">${m.h}</div></div>${sh}<div class="t"><div class="t-flag">${flagImg(at?.f||'xx')}</div><div class="t-name">${m.a}</div></div></div>${scr}${nt}${pr}${shareBtn}</div>`;
+  return`<div class="card fade-in"><div class="m-meta"><span class="m-group">${m.g} 组</span><span class="m-venue">${m.v}${m.att?' · '+m.att+'人':''}</span><span class="m-status ${sc}">${st}</span></div><div class="m-teams"><div class="t"><div class="t-flag">${flagImg(ht?.f||'xx')}</div><div class="t-name">${m.h}</div></div>${sh}<div class="t"><div class="t-flag">${flagImg(at?.f||'xx')}</div><div class="t-name">${m.a}</div></div></div>${scr}${nt}${pr}</div>`;
 }
 
 // ══════════════════════════════════════════
@@ -1966,50 +1958,6 @@ function renderGroupPreview(){
     html+='</table></div>';
   }
   return html;
-}
-
-// 分享卡片生成
-function shareCard(btn,h,a,hs,as,date,group){
-  const W=800,H=500,cvs=document.createElement('canvas');cvs.width=W;cvs.height=H;
-  const ctx=cvs.getContext('2d');
-  // 背景
-  const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#0f1923');bg.addColorStop(1,'#1a2840');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-  // 装饰条
-  const accent=ctx.createLinearGradient(0,0,W,0);accent.addColorStop(0,'#00d4aa');accent.addColorStop(1,'#4d9fff');
-  ctx.fillStyle=accent;ctx.fillRect(0,0,W,4);
-  ctx.fillRect(0,H-4,W,4);
-  // 标题
-  ctx.fillStyle='#7a8ba0';ctx.font='12px Inter,sans-serif';ctx.textAlign='center';
-  ctx.fillText(group+' 组 · '+date,W,40);
-  // 球队名
-  ctx.fillStyle='#f0f4f8';ctx.font='bold 36px Inter,Noto Sans SC,sans-serif';
-  ctx.fillText(h,W*0.28,200);ctx.fillText(a,W*0.72,200);
-  // 比分
-  ctx.font='bold 72px Inter,sans-serif';ctx.fillStyle='#00d4aa';
-  ctx.fillText(hs,W*0.38,210);ctx.fillStyle='#7a8ba0';ctx.fillText(':',W*0.5,205);ctx.fillStyle='#4d9fff';
-  ctx.fillText(as,W*0.62,210);
-  // 进球详情
-  const m=M.find(x=>x.h===h&&x.a===a&&x.d===date);
-  if(m&&(m.hg||m.ag)){
-    ctx.fillStyle='#7a8ba0';ctx.font='12px Noto Sans SC,sans-serif';
-    if(m.hg)ctx.fillText(m.hg,W*0.28,260);
-    if(m.ag)ctx.fillText(m.ag,W*0.72,260);
-  }
-  // VS文字
-  ctx.fillStyle='rgba(255,255,255,0.06)';ctx.font='bold 120px Inter,sans-serif';
-  ctx.fillText('VS',W*0.5,320);
-  // 水印
-  ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='11px Inter,sans-serif';
-  ctx.fillText('www.zgq121418ai.com · 2026 世界杯',W*0.5,H-20);
-  // 弹窗显示
-  const modal=document.createElement('div');modal.className='share-modal';modal.onclick=e=>{if(e.target===modal)modal.remove();};
-  modal.appendChild(cvs);document.body.appendChild(modal);
-  const actions=document.createElement('div');actions.className='share-actions';
-  const dlBtn=document.createElement('button');dlBtn.textContent='💾 保存图片';
-  dlBtn.onclick=()=>{const a=document.createElement('a');a.download=`${h}vs${a}_${date}.png`;a.href=cvs.toDataURL('image/png');a.click();};
-  const closeBtn=document.createElement('button');closeBtn.textContent='✕ 关闭';closeBtn.onclick=()=>modal.remove();
-  actions.appendChild(dlBtn);actions.appendChild(closeBtn);document.body.appendChild(actions);
 }
 
 // 主题切换
