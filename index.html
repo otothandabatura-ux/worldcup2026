@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#0a0e17">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/images/icon-192.png">
 
 <!-- 社交分享元数据 (优化版) -->
 <title>⚽ 2026 美加墨世界杯 · 战报与预测</title>
@@ -65,6 +67,45 @@
     --accent:#00d4aa;--accent2:#4d9fff;--accent3:#ffb347;--accent4:#ff6b9d;
     --text:#f0f4f8;--text-dim:#7a8ba0;--text-muted:#4a5e73;--border:rgba(255,255,255,0.08);
     --win:#00d4aa;--draw:#ffb347;--loss:#ff6b9d;
+  }
+  [data-theme="light"] {
+    --bg:#f0f2f5;--card:rgba(255,255,255,0.85);--card-hover:rgba(255,255,255,0.95);
+    --accent:#00a88a;--accent2:#2563eb;--accent3:#d97706;--accent4:#e11d48;
+    --text:#1a1a2e;--text-dim:#64748b;--text-muted:#94a3b8;--border:rgba(0,0,0,0.08);
+    --win:#00a88a;--draw:#d97706;--loss:#e11d48;
+  }
+  [data-theme="light"] body{background:#f0f2f5;}
+  [data-theme="light"] .photo-wall::after{background:radial-gradient(ellipse 75% 75% at 50% 50%,rgba(240,242,245,0.85) 0%,rgba(240,242,245,0.7) 35%,rgba(240,242,245,0.5) 65%,rgba(240,242,245,0.3) 100%);}
+  .theme-toggle{position:fixed;top:12px;right:12px;z-index:100;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text-dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:all 0.3s;}
+  .theme-toggle:hover{background:var(--card-hover);color:var(--accent);}
+  .share-bar{margin-top:10px;text-align:center;}
+  .share-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s;}
+  .share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,212,170,0.3);}
+  .share-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+  .share-modal canvas{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);}
+  .share-actions{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:201;}
+  .share-actions button{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;backdrop-filter:blur(10px);transition:all 0.2s;}
+  .share-actions button:hover{background:var(--accent);color:#fff;}
+  /* 对阵图 */
+  .bracket-wrap{overflow-x:auto;padding:10px 0;}
+  .bracket-round{display:inline-flex;flex-direction:column;gap:8px;min-width:140px;vertical-align:top;}
+  .bracket-round-title{font-size:10px;font-weight:700;color:var(--accent2);text-align:center;padding:6px;text-transform:uppercase;letter-spacing:1px;}
+  .bracket-match{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:11px;min-height:48px;display:flex;flex-direction:column;justify-content:center;}
+  .bracket-team{display:flex;align-items:center;gap:6px;padding:3px 0;}
+  .bracket-team .fl{width:18px;height:18px;border-radius:4px;overflow:hidden;}
+  .bracket-team .fl img{width:100%;height:100%;object-fit:cover;}
+  .bracket-team .name{flex:1;font-weight:600;}
+  .bracket-team .score{font-weight:800;color:var(--accent);min-width:16px;text-align:right;}
+  .bracket-team.winner .name{color:var(--accent);}
+  .bracket-team.loser{opacity:0.5;}
+  .bracket-tbd{color:var(--text-muted);font-style:italic;font-size:10px;}
+  .bracket-grid{display:flex;gap:20px;align-items:flex-start;padding:10px;}
+  .bracket-col{display:flex;flex-direction:column;gap:6px;}
+  .bracket-spacer{height:20px;}
+  .bracket-connector{width:20px;border-top:1px solid var(--border);}
+  @media(max-width:460px){
+    .bracket-round{min-width:110px;}
+    .bracket-match{padding:6px 8px;font-size:10px;}
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--accent) var(--bg);}
@@ -401,6 +442,7 @@
 
 </head>
 <body>
+<button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
 <div class="photo-wall">
   <div class="pw-grid">
     <div class="pw-cell pw-g1"></div>
@@ -437,12 +479,14 @@
     <div class="tab-btn" onclick="switchTab(this,'hot')">🔥 热点</div>
     <div class="tab-btn" onclick="switchTab(this,'stand')">📋 积分</div>
     <div class="tab-btn" onclick="switchTab(this,'radar')">🕸️ 雷达</div>
+    <div class="tab-btn" onclick="switchTab(this,'bracket')">🏆 对阵</div>
   </div>
   <div class="tab-panel active" id="p-today"></div>
   <div class="tab-panel" id="p-results"></div>
   <div class="tab-panel" id="p-hot"></div>
   <div class="tab-panel" id="p-stand"></div>
   <div class="tab-panel" id="p-radar"></div>
+  <div class="tab-panel" id="p-bracket"></div>
 </div>
 
 <div class="footer">⚽ 2026 美加墨世界杯 · AI 战报与预测<br>综合实力评分 · 数据每 5 分钟自动刷新</div>
@@ -854,10 +898,55 @@ const PLAYER_CN = {
   'Yoane Wissa': '维萨',
   // 土耳其补充
   'Yunus Akgün': '阿克金',
+  // 阿根廷补充
+  'Juan Jose Cáceres': '胡安·何塞·卡塞雷斯',
+  // 澳大利亚补充
+  'Maurício': '毛里西奥',
+  // 波黑补充
+  'Ermedin Demirovic': '德米罗维奇', 'Jovo Lukic': '卢基奇',
+  // 巴西补充
+  'Roger Ibañez': '罗杰·伊巴涅斯',
+  // 加拿大补充
+  'Alistair Johnston': '约翰斯顿', 'Cyle Larin': '拉林', 'Luc de Fougerolles': '德·富热罗尔',
+  // 哥伦比亚补充
+  'Julián Quiñones': '基尼奥内斯',
+  // 捷克补充
+  'Ladislav Krejčí': '克雷伊奇', 'Ladislav Krejcí': '克雷伊奇',
+  // 厄瓜多尔补充
+  'Brian Gutiérrez': '古铁雷斯',
+  // 海地补充
+  'Jean-Ricner Bellegarde': '贝勒加德',
+  // 洪都拉斯补充
+  'Alex Arce': '阿尔塞',
+  // 伊朗补充
+  'Mahmoud Abunada': '阿布纳达',
+  // 韩国补充
+  'Hwang In-Beom': '黄仁范', 'Lee Gi-Hyuk': '李基赫', 'Oh Hyeon-Gyu': '吴贤揆',
+  // 墨西哥补充
+  'César Montes': '塞萨尔·蒙特斯', 'Raúl Jiménez': '劳尔·希门尼斯', 'Diego Gómez': '迭戈·戈麦斯', 'Damián Bobadilla': '博巴迪利亚',
+  // 摩洛哥补充
+  'Ismael Saibari': '赛巴里',
+  // 巴拉圭补充
+  'Júnior Alonso': '小阿隆索', 'Miguel Almirón': '阿尔米隆',
+  // 卡塔尔补充
+  'Jassem Gaber': '加伯',
+  // 苏格兰补充
+  'Aaron Hickey': '希基', 'Findlay Curtis': '柯蒂斯', 'Kenny McLean': '麦克莱恩',
+  // 塞尔维亚补充
+  'Nikola Katić': '卡蒂奇', 'Nikola Katic': '卡蒂奇',
+  // 南非补充
+  'Nkosinathi Sibisi': '西比西', 'Sphephelo Sithole': '西索尔', 'Themba Zwane': '兹瓦内',
+  // 瑞士补充
+  'Denis Zakaria': '扎卡里亚', 'Miro Muheim': '穆海姆',
+  // 美国补充
+  'Folarin Balogun': '巴洛贡', 'Giovanni Reyna': '雷纳', 'Tyler Adams': '亚当斯',
+  // 奥地利补充（大小写变体）
+  'Marko Arnautovic': '阿瑙托维奇',
 };
 
 function playerName(english) {
-  return PLAYER_CN[english] || PLAYER_CN[english.replace(/\. /g, '.')] || english;
+  const clean = english.trim();
+  return PLAYER_CN[clean] || PLAYER_CN[clean.replace(/\. /g, '.')] || clean;
 }
 
 
@@ -929,6 +1018,11 @@ async function fetchMatches() {
       headline: (comp.headlines && comp.headlines[0]) ? comp.headlines[0] : null,
       hg: goals.filter(g=>g.team==='h').map(g=>g.minute+' '+playerName(g.player)).join('<br>') || '',
       ag: goals.filter(g=>g.team==='a').map(g=>g.minute+' '+playerName(g.player)).join('<br>') || '',
+      // 比赛统计数据
+      stats: {
+        h: Object.fromEntries((home.statistics||[]).map(s=>[s.name, parseFloat(s.displayValue)||0])),
+        a: Object.fromEntries((away.statistics||[]).map(s=>[s.name, parseFloat(s.displayValue)||0])),
+      },
     };
   });
 
@@ -1232,7 +1326,8 @@ function card(m,sp=false){
     const p=pred(m.h,m.a);
     pr=`<div class="pred"><div class="pred-h"><span class="ai">AI</span><span>胜负预测</span></div><div class="pred-bars"><div class="pred-bar h" style="width:${p.hw}%"></div><div class="pred-bar d" style="width:${p.dr}%"></div><div class="pred-bar a" style="width:${p.aw}%"></div></div><div class="pred-lbl"><div>${m.h} <span class="pct">${p.hw}%</span></div><div>平 <span class="pct">${p.dr}%</span></div><div>${m.a} <span class="pct">${p.aw}%</span></div></div><div class="pred-txt">${p.an}</div></div>`;
   }
-  return`<div class="card fade-in"><div class="m-meta"><span class="m-group">${m.g} 组</span><span class="m-venue">${m.v}${m.att?' · '+m.att+'人':''}</span><span class="m-status ${sc}">${st}</span></div><div class="m-teams"><div class="t"><div class="t-flag">${flagImg(ht?.f||'xx')}</div><div class="t-name">${m.h}</div></div>${sh}<div class="t"><div class="t-flag">${flagImg(at?.f||'xx')}</div><div class="t-name">${m.a}</div></div></div>${scr}${nt}${pr}</div>`;
+  const shareBtn=ft?`<div class="share-bar"><button class="share-btn" onclick="shareCard(this,'${m.h}','${m.a}',${m.hs},${m.as},'${m.d}','${m.g}')">📤 生成分享卡片</button></div>`:'';
+  return`<div class="card fade-in"><div class="m-meta"><span class="m-group">${m.g} 组</span><span class="m-venue">${m.v}${m.att?' · '+m.att+'人':''}</span><span class="m-status ${sc}">${st}</span></div><div class="m-teams"><div class="t"><div class="t-flag">${flagImg(ht?.f||'xx')}</div><div class="t-name">${m.h}</div></div>${sh}<div class="t"><div class="t-flag">${flagImg(at?.f||'xx')}</div><div class="t-name">${m.a}</div></div></div>${scr}${nt}${pr}${shareBtn}</div>`;
 }
 
 // ══════════════════════════════════════════
@@ -1260,12 +1355,37 @@ function tStats(n){
   const t=T[n];if(!t)return null;
   const b=((t.e-1400)/750)*100,rf=Math.max(0,(60-t.r)/55),tb=t.wc*3;
   const clamp=v=>Math.max(20,Math.min(98,Math.round(v)));
-  let atk=b*(.85+rf*.15)+tb;if(['南美','欧洲'].includes(t.c))atk+=4;
-  let def=b*(.82+rf*.18);if(t.c==='欧洲')def+=5;if(t.c==='南美')def+=3;
-  let mid=b*(.88+rf*.12)+tb*.5;
-  let spd=b*.8;if(t.c==='非洲')spd+=12;if(t.c==='亚洲')spd+=8;if(t.c==='中北美')spd+=5;if(t.r>30)spd+=3;
+
+  // 聚合真实比赛数据
+  const teamMatches=M.filter(m=>m.s==='ft'&&(m.h===n||m.a===n));
+  let realBonus={atk:0,def:0,mid:0,spd:0,tw:0};
+  if(teamMatches.length>0){
+    let poss=0,sot=0,shots=0,corners=0,fouls=0;
+    for(const m of teamMatches){
+      const side=m.h===n?'h':'a';
+      const st=m.stats?.[side]||{};
+      poss+=st.possessionPct||0;sot+=st.shotsOnTarget||0;
+      shots+=st.totalShots||0;corners+=st.wonCorners||0;fouls+=st.foulsCommitted||0;
+    }
+    const cnt=teamMatches.length;
+    poss/=cnt;sot/=cnt;shots/=cnt;corners/=cnt;fouls/=cnt;
+    // 进攻: 射门+射正
+    realBonus.atk=Math.min(15,(sot-3)*2+(shots-10)*0.5);
+    // 防守: 低犯规+低射门被对手
+    realBonus.def=Math.min(10,(15-fouls)*0.4);
+    // 中场: 控球率
+    realBonus.mid=Math.min(12,(poss-45)*0.3);
+    // 速度/配合: 角球+射门比
+    realBonus.spd=Math.min(8,corners*0.8);
+    realBonus.tw=Math.min(10,(sot/shots)*30);
+  }
+
+  let atk=b*(.85+rf*.15)+tb+realBonus.atk;if(['南美','欧洲'].includes(t.c))atk+=4;
+  let def=b*(.82+rf*.18)+realBonus.def;if(t.c==='欧洲')def+=5;if(t.c==='南美')def+=3;
+  let mid=b*(.88+rf*.12)+tb*.5+realBonus.mid;
+  let spd=b*.8+realBonus.spd;if(t.c==='非洲')spd+=12;if(t.c==='亚洲')spd+=8;if(t.c==='中北美')spd+=5;if(t.r>30)spd+=3;
   let exp=b*.7+tb*2;if(t.b.includes('🏆'))exp+=10;if(t.b.includes('Final'))exp+=7;if(t.b.includes('4th')||t.b.includes('3rd'))exp+=5;if(t.b.includes('QF'))exp+=3;
-  let tw=b*.75+rf*15;if(t.r>40)tw-=5;
+  let tw=b*.75+rf*15+realBonus.tw;if(t.r>40)tw-=5;
   return{attack:clamp(atk),defense:clamp(def),midfield:clamp(mid),speed:clamp(spd),experience:clamp(exp),teamwork:clamp(tw)};
 }
 
@@ -1387,6 +1507,9 @@ function renderAll() {
 
   // Standings
   document.getElementById('p-stand').innerHTML = `<div class="sec"><h2>📋 小组积分榜</h2></div>` + standings();
+
+  // 淘汰赛对阵
+  renderBracket();
 
   // Stats
   document.getElementById('st-m').textContent = ft.length;
@@ -1722,6 +1845,136 @@ function updRadar(){
     if(acv){acv.width=260;acv.height=240;drawRadar(acv,as,CC[T[a].c]||'#4d9fff');}
   });
 }
+
+// 淘汰赛对阵图
+function renderBracket(){
+  const el=document.getElementById('p-bracket');
+  // 从已赛比赛数据中找淘汰赛
+  const knockoutRounds=[
+    {name:'32强',matches:16},
+    {name:'16强',matches:8},
+    {name:'8强',matches:4},
+    {name:'半决赛',matches:2},
+    {name:'决赛',matches:1},
+  ];
+  // 检查是否有淘汰赛数据
+  const ko=M.filter(m=>m.g&&!m.g.match(/^[A-L]$/));
+  if(ko.length===0){
+    // 尚未进入淘汰赛，显示赛程框架
+    let html='<div class="sec"><h2>🏆 淘汰赛对阵</h2><span class="badge">即将开始</span></div>';
+    html+='<div style="text-align:center;padding:40px 20px;color:var(--text-dim)">';
+    html+='<div style="font-size:48px;margin-bottom:16px">🏆</div>';
+    html+='<div style="font-size:14px;font-weight:700;margin-bottom:8px">淘汰赛对阵图</div>';
+    html+='<div style="font-size:12px;line-height:1.8">小组赛结束后自动生成<br>32强 → 16强 → 8强 → 半决赛 → 决赛</div>';
+    html+='</div>';
+    // 显示晋级预测
+    html+=renderGroupPreview();
+    el.innerHTML=html;
+    return;
+  }
+  // 有淘汰赛数据时渲染对阵图
+  let html='<div class="sec"><h2>🏆 淘汰赛对阵</h2></div>';
+  html+='<div class="bracket-wrap"><div class="bracket-grid">';
+  const roundNames=['32强','16强','8强','半决赛','决赛'];
+  for(let r=0;r<roundNames.length;r++){
+    const roundMatches=ko.filter(m=>m.round===r);
+    html+=`<div class="bracket-col"><div class="bracket-round-title">${roundNames[r]}</div>`;
+    const cnt=Math.pow(2,4-r);
+    for(let i=0;i<cnt;i++){
+      const m=roundMatches[i];
+      if(m){
+        const ht=T[m.h],at=T[m.a];
+        html+=`<div class="bracket-match"><div class="bracket-team ${m.hs>m.as?'winner':'loser'}"><div class="fl">${flagImgSmall(ht?.f||'xx')}</div><span class="name">${m.h}</span><span class="score">${m.hs}</span></div><div class="bracket-team ${m.as>m.hs?'winner':'loser'}"><div class="fl">${flagImgSmall(at?.f||'xx')}</div><span class="name">${m.a}</span><span class="score">${m.as}</span></div></div>`;
+      } else {
+        html+=`<div class="bracket-match"><div class="bracket-tbd">待定</div></div>`;
+      }
+    }
+    html+='</div>';
+  }
+  html+='</div></div>';
+  el.innerHTML=html;
+}
+
+function renderGroupPreview(){
+  // 显示各组当前排名（预测晋级）
+  const G={};
+  for(const[n,t]of Object.entries(T)){if(!G[t.g])G[t.g]={};if(!G[t.g][n])G[t.g][n]={mp:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};}
+  for(const m of M){if(m.s!=='ft')continue;const hg=G[m.g];if(!hg)continue;if(!hg[m.h])hg[m.h]={mp:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};if(!hg[m.a])hg[m.a]={mp:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};const h=hg[m.h],a=hg[m.a];h.mp++;a.mp++;h.gf+=m.hs;h.ga+=m.as;a.gf+=m.as;a.ga+=m.hs;if(m.hs>m.as){h.w++;h.pts+=3;a.l++;}else if(m.hs<m.as){a.w++;a.pts+=3;h.l++;}else{h.d++;a.d++;h.pts++;a.pts++;}}
+  let html='<div class="sec"><h2>📊 小组晋级形势</h2><span class="badge">预测</span></div>';
+  for(const g of Object.keys(G).sort()){
+    const ts=Object.entries(G[g]).map(([n,s])=>({...s,n,gd:s.gf-s.ga})).sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);
+    if(ts.every(t=>t.mp===0))continue;
+    html+=`<div class="grp fade-in"><div class="grp-h">${g} 组</div><table class="stbl"><tr><th>#</th><th>球队</th><th>赛</th><th>分</th><th>状态</th></tr>`;
+    ts.forEach((t,i)=>{
+      const status=i<2?'🟢 晋级':(i===2&&ts.length>=4?'🟡 待定':'🔴 淘汰');
+      const statusColor=i<2?'var(--accent)':(i===2?'var(--accent3)':'var(--loss)');
+      html+=`<tr><td>${i+1}</td><td>${flagImgSmall(T[t.n]?.f||'xx')}${t.n}</td><td>${t.mp}</td><td class="pts">${t.pts}</td><td style="color:${statusColor};font-size:9px">${status}</td></tr>`;
+    });
+    html+='</table></div>';
+  }
+  return html;
+}
+
+// 分享卡片生成
+function shareCard(btn,h,a,hs,as,date,group){
+  const W=800,H=500,cvs=document.createElement('canvas');cvs.width=W;cvs.height=H;
+  const ctx=cvs.getContext('2d');
+  // 背景
+  const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#0f1923');bg.addColorStop(1,'#1a2840');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // 装饰条
+  const accent=ctx.createLinearGradient(0,0,W,0);accent.addColorStop(0,'#00d4aa');accent.addColorStop(1,'#4d9fff');
+  ctx.fillStyle=accent;ctx.fillRect(0,0,W,4);
+  ctx.fillRect(0,H-4,W,4);
+  // 标题
+  ctx.fillStyle='#7a8ba0';ctx.font='12px Inter,sans-serif';ctx.textAlign='center';
+  ctx.fillText(group+' 组 · '+date,W,40);
+  // 球队名
+  ctx.fillStyle='#f0f4f8';ctx.font='bold 36px Inter,Noto Sans SC,sans-serif';
+  ctx.fillText(h,W*0.28,200);ctx.fillText(a,W*0.72,200);
+  // 比分
+  ctx.font='bold 72px Inter,sans-serif';ctx.fillStyle='#00d4aa';
+  ctx.fillText(hs,W*0.38,210);ctx.fillStyle='#7a8ba0';ctx.fillText(':',W*0.5,205);ctx.fillStyle='#4d9fff';
+  ctx.fillText(as,W*0.62,210);
+  // 进球详情
+  const m=M.find(x=>x.h===h&&x.a===a&&x.d===date);
+  if(m&&(m.hg||m.ag)){
+    ctx.fillStyle='#7a8ba0';ctx.font='12px Noto Sans SC,sans-serif';
+    if(m.hg)ctx.fillText(m.hg,W*0.28,260);
+    if(m.ag)ctx.fillText(m.ag,W*0.72,260);
+  }
+  // VS文字
+  ctx.fillStyle='rgba(255,255,255,0.06)';ctx.font='bold 120px Inter,sans-serif';
+  ctx.fillText('VS',W*0.5,320);
+  // 水印
+  ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='11px Inter,sans-serif';
+  ctx.fillText('www.zgq121418ai.com · 2026 世界杯',W*0.5,H-20);
+  // 弹窗显示
+  const modal=document.createElement('div');modal.className='share-modal';modal.onclick=e=>{if(e.target===modal)modal.remove();};
+  modal.appendChild(cvs);document.body.appendChild(modal);
+  const actions=document.createElement('div');actions.className='share-actions';
+  const dlBtn=document.createElement('button');dlBtn.textContent='💾 保存图片';
+  dlBtn.onclick=()=>{const a=document.createElement('a');a.download=`${h}vs${a}_${date}.png`;a.href=cvs.toDataURL('image/png');a.click();};
+  const closeBtn=document.createElement('button');closeBtn.textContent='✕ 关闭';closeBtn.onclick=()=>modal.remove();
+  actions.appendChild(dlBtn);actions.appendChild(closeBtn);document.body.appendChild(actions);
+}
+
+// 主题切换
+function toggleTheme(){
+  const html=document.documentElement;
+  const isLight=html.getAttribute('data-theme')==='light';
+  html.setAttribute('data-theme',isLight?'':'light');
+  localStorage.setItem('theme',isLight?'dark':'light');
+  document.querySelector('.theme-toggle').textContent=isLight?'🌙':'☀️';
+}
+(function(){
+  const saved=localStorage.getItem('theme')||'dark';
+  if(saved==='light'){document.documentElement.setAttribute('data-theme','light');}
+  window.addEventListener('DOMContentLoaded',()=>{
+    const btn=document.querySelector('.theme-toggle');
+    if(btn)btn.textContent=saved==='light'?'☀️':'🌙';
+  });
+})();
 
 document.addEventListener('DOMContentLoaded',init);
 </script>
