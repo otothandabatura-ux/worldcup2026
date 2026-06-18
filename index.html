@@ -699,6 +699,10 @@ const PLAYER_CN = {
   'Keylor Navas': '纳瓦斯',
   'Guillermo Ochoa': '奥乔亚',
   // 补充球员
+  'Felix Nmecha': '费利克斯·内梅查', 'F. Nmecha': '费利克斯·内梅查',
+  'Levi Colwill': '列维·科尔维尔', 'L. Colwill': '列维·科尔维尔',
+  'Deniz Undav': '德尼兹·乌达夫', 'D. Undav': '德尼兹·乌达夫',
+  'Livano Comenencia': '利瓦诺·科梅内西亚', 'L. Comenencia': '利瓦诺·科梅内西亚',
   'Romano Schmid': '施密德', 'Emam Ashour': '阿舒尔', 'Crysencio Summerville': '萨默维尔',
   'Keito Nakamura': '中村敬斗', 'Donyell Malen': '马伦', 'Maxi Araújo': '马克西·阿劳霍',
   'Ramin Rezaeian': '雷扎伊安', 'Mohammad Mohebbi': '穆赫比', 'Eli Just': '埃利·贾斯特', 'Elijah Just': '伊莱亚·贾斯特', 'E. Just': '伊莱亚·贾斯特',
@@ -709,6 +713,9 @@ const PLAYER_CN = {
   'André Ayew': '阿尤', 'Thomas Partey': '帕尔特伊', 'Mohammed Kudus': '库杜斯',
   'Riyad Mahrez': '马赫雷斯', 'Ismaël Bennacer': '贝纳赛尔',
   'Niclas Füllkrug': '菲尔克鲁格', 'Leroy Sané': '萨内',
+  'Maximilian Mittelstätt': '米特尔施泰特', 'Robert Andrich': '安德里希',
+  'Aleksandar Pavlović': '帕夫洛维奇', 'Jonathan Tah': '塔',
+  'Waldemar Anton': '安东', 'Chris Führich': '富里希',
   'Florian Thauvin': '托万', 'Olivier Giroud': '吉鲁',
   'Dries Mertens': '梅尔滕斯', 'Youri Tielemans': '蒂勒曼斯',
   'Hee-chan Hwang': '黄喜灿', 'Min-jae Kim': '金玟哉',
@@ -1359,6 +1366,7 @@ function renderAll() {
 const ZHIBO8_HEADLINES = [
   {h:'葡萄牙', a:'民主刚果', title:'爆冷！葡萄牙1-1民主刚果 内维斯破门C罗哑火', desc:'葡萄牙全场7射1正，C罗3射0正。民主刚果收获队史世界杯首球和首分。'},
   {h:'英格兰', a:'克罗地亚', title:'进球大战！英格兰4-2克罗地亚 凯恩双响贝林破门', desc:'凯恩梅开二度，贝林厄姆和拉什福德替补建功，英格兰大胜克罗地亚。'},
+  {h:'哥伦比亚', a:'乌兹别克斯坦', title:'开门红！哥伦比亚3-1乌兹别克斯坦 迪亚斯传射穆尼奥斯破门', desc:'迪亚斯中柱+传射，穆尼奥斯破门，哥伦比亚世界杯首战告捷。'},
   {h:'加纳', a:'巴拿马', title:'绝杀！加纳1-0巴拿马 伊伦基95分钟绝杀', desc:'伊伦基补时绝杀，加纳全取三分，巴拿马仍无缘世界杯首分。'},
   {h:'阿根廷', a:'阿尔及利亚', title:'梅西戴帽！阿根廷3-0阿尔及利亚 创世界杯纪录', desc:'梅西独中三元，追平克洛泽世界杯16球纪录，阿根廷大胜。'},
   {h:'法国', a:'塞内加尔', title:'姆巴佩双响！法国3-1塞内加尔', desc:'姆巴佩梅开二度，法国轻取塞内加尔。'},
@@ -1375,9 +1383,10 @@ function generateHotTopics() {
 
   let html = '<div class="sec"><h2>🔥 热点频道</h2><span class="badge">赛后看点</span></div>';
 
-  // 分析已结束比赛生成热点
+  // 分析已结束比赛生成热点（只取今天和昨天的比赛）
+  const recentFt = ft.filter(m => m.d >= beijingDate(-1));
   const topics = [];
-  for (const m of ft.slice(0, 15)) {
+  for (const m of recentFt.slice(0, 15)) {
     const ht = T[m.h], at = T[m.a];
     if(!ht||!at)continue;
     const total = m.hs + m.as;
