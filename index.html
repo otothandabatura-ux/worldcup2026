@@ -69,36 +69,65 @@
     --win:#00d4aa;--draw:#ffb347;--loss:#ff6b9d;
   }
   [data-theme="light"] {
-    --bg:#1a1f2e;--card:rgba(30,40,60,0.7);--card-hover:rgba(35,48,72,0.8);
-    --accent:#00d4aa;--accent2:#4d9fff;--accent3:#ffb347;--accent4:#ff6b9d;
-    --text:#e8ecf1;--text-dim:#94a3b8;--text-muted:#64748b;--border:rgba(255,255,255,0.08);
-    --win:#00d4aa;--draw:#ffb347;--loss:#ff6b9d;
+    --bg:#f5f0eb;--card:rgba(255,252,248,0.88);--card-hover:rgba(255,252,248,0.95);
+    --accent:#00876e;--accent2:#1d4ed8;--accent3:#b45309;--accent4:#be123c;
+    --text:#1a1a2e;--text-dim:#475569;--text-muted:#78869a;--border:rgba(0,0,0,0.07);
+    --win:#00876e;--draw:#b45309;--loss:#be123c;
   }
-  [data-theme="light"] body{background:#1a1f2e;}
-  [data-theme="light"] .photo-wall{opacity:0.35;filter:brightness(1.1) saturate(0.7);}
-  [data-theme="light"] .photo-wall::after{background:radial-gradient(ellipse 75% 75% at 50% 50%,rgba(26,31,46,0.55) 0%,rgba(26,31,46,0.4) 35%,rgba(26,31,46,0.2) 65%,transparent 100%);}
-  [data-theme="light"] .page{background:rgba(30,40,60,0.55);backdrop-filter:blur(20px);}
-  [data-theme="light"] .status-bar{background:rgba(30,40,60,0.6);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .stats-row{background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(77,159,255,0.06));border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .tab-bar{background:rgba(30,40,60,0.6);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .card{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .card:hover{background:rgba(35,48,72,0.8);border-color:rgba(0,212,170,0.2);}
-  [data-theme="light"] .card::before{background:linear-gradient(90deg,transparent,rgba(0,212,170,0.2),transparent);}
-  [data-theme="light"] .topic{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .grp{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .radar-card{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .sel-box{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .sel{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
-  [data-theme="light"] .sel option{background:#1a1f2e;color:#e8ecf1;}
-  [data-theme="light"] .wp{background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(77,159,255,0.06));border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .pred{border-top-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .pred-txt{background:rgba(255,255,255,0.03);border-left-color:var(--accent);}
-  [data-theme="light"] .hl-box{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.05);}
-  [data-theme="light"] .hl-tactic{background:rgba(77,159,255,0.05);border-left-color:var(--accent2);}
-  [data-theme="light"] .hl-note{background:rgba(0,212,170,0.05);border-left-color:var(--accent);}
-  [data-theme="light"] .m-scorers{border-top-color:rgba(255,255,255,0.04);}
-  [data-theme="light"] .bracket-match{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.06);}
-  [data-theme="light"] .theme-toggle{background:rgba(30,40,60,0.7);border-color:rgba(255,255,255,0.08);}
+  [data-theme="light"] body{background:#f5f0eb;}
+  [data-theme="light"] .photo-wall{opacity:0.2;filter:brightness(1.2) saturate(0.5);}
+  [data-theme="light"] .photo-wall::after{background:radial-gradient(ellipse 75% 75% at 50% 50%,rgba(245,240,235,0.7) 0%,rgba(245,240,235,0.5) 35%,rgba(245,240,235,0.25) 65%,transparent 100%);}
+  [data-theme="light"] .page{background:rgba(255,252,248,0.65);backdrop-filter:blur(20px);}
+  [data-theme="light"] .status-bar{background:rgba(255,252,248,0.8);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .stats-row{background:linear-gradient(135deg,rgba(0,135,110,0.06),rgba(29,78,216,0.06));border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .stat-box .num{-webkit-text-fill-color:#00876e;}
+  [data-theme="light"] .tab-bar{background:rgba(255,252,248,0.8);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .tab-btn{color:#78869a;}
+  [data-theme="light"] .tab-btn.active{background:rgba(0,135,110,0.1);color:#00876e;}
+  [data-theme="light"] .card{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .card:hover{background:rgba(255,252,248,0.95);border-color:rgba(0,135,110,0.2);}
+  [data-theme="light"] .card::before{background:linear-gradient(90deg,transparent,rgba(0,135,110,0.15),transparent);}
+  [data-theme="light"] .m-group{background:rgba(29,78,216,0.08);color:#1d4ed8;}
+  [data-theme="light"] .m-status.s-ft{background:rgba(100,116,139,0.1);color:#64748b;}
+  [data-theme="light"] .m-status.s-up{background:rgba(0,135,110,0.08);color:#00876e;}
+  [data-theme="light"] .m-vs{color:#94a3b8;}
+  [data-theme="light"] .m-colon{color:#94a3b8;}
+  [data-theme="light"] .t-name{color:#1a1a2e;}
+  [data-theme="light"] .m-scorers{border-top-color:rgba(0,0,0,0.05);}
+  [data-theme="light"] .m-venue{color:#94a3b8;}
+  [data-theme="light"] .topic{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .topic-tag.tag-explosive{background:rgba(239,68,68,0.1);color:#dc2626;}
+  [data-theme="light"] .topic-tag.tag-classic{background:rgba(29,78,216,0.1);color:#1d4ed8;}
+  [data-theme="light"] .topic-tag.tag-upset{background:rgba(180,83,9,0.1);color:#b45309;}
+  [data-theme="light"] .topic-tag.tag-debut{background:rgba(0,135,110,0.1);color:#00876e;}
+  [data-theme="light"] .topic-title{color:#1a1a2e;}
+  [data-theme="light"] .topic-desc{color:#475569;}
+  [data-theme="light"] .topic-time{color:#94a3b8;}
+  [data-theme="light"] .grp{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .grp-h{color:#1d4ed8;border-bottom-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .stbl th{color:#78869a;border-bottom-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .stbl td{color:#1a1a2e;border-bottom-color:rgba(0,0,0,0.04);}
+  [data-theme="light"] .stbl .pts{color:#00876e;}
+  [data-theme="light"] .radar-card{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .sel-box{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .sel{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.08);color:#1a1a2e;}
+  [data-theme="light"] .sel option{background:#fff;color:#1a1a2e;}
+  [data-theme="light"] .vs-b{color:#94a3b8;}
+  [data-theme="light"] .wp{background:linear-gradient(135deg,rgba(0,135,110,0.05),rgba(29,78,216,0.05));border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .wp h4{color:#78869a;}
+  [data-theme="light"] .wp-vs{color:#94a3b8;}
+  [data-theme="light"] .pred{border-top-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .pred-bar.h{background:#00876e;}
+  [data-theme="light"] .pred-bar.d{background:#b45309;}
+  [data-theme="light"] .pred-bar.a{background:#be123c;}
+  [data-theme="light"] .pred-txt{background:rgba(0,0,0,0.02);border-left-color:#00876e;color:#475569;}
+  [data-theme="light"] .pred-lbl{color:#475569;}
+  [data-theme="light"] .hl-box{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.05);}
+  [data-theme="light"] .hl-tactic{background:rgba(29,78,216,0.04);border-left-color:#1d4ed8;color:#475569;}
+  [data-theme="light"] .hl-note{background:rgba(0,135,110,0.04);border-left-color:#00876e;color:#475569;}
+  [data-theme="light"] .footer{color:#94a3b8;}
+  [data-theme="light"] .bracket-match{background:rgba(255,252,248,0.88);border-color:rgba(0,0,0,0.06);}
+  [data-theme="light"] .theme-toggle{background:rgba(255,252,248,0.9);border-color:rgba(0,0,0,0.08);}
   .theme-toggle{position:fixed;top:12px;right:12px;z-index:100;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text-dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:all 0.3s;}
   .theme-toggle:hover{background:var(--card-hover);color:var(--accent);}
   .share-bar{margin-top:10px;text-align:center;}
@@ -1572,6 +1601,7 @@ const ZHIBO8_HEADLINES = [
   {h:'葡萄牙', a:'民主刚果', title:'C罗首战哑火：这并非想要的开局 一切远未结束', desc:'C罗首发打满全场，3射门0射正，25次触球0次过人。', extra:true},
   {h:'', a:'', title:'首轮积分榜：阿英德小组第1，法日韩小组第2', desc:'世界杯首轮结束，阿根廷英格兰德国领跑各自小组。', extra:true},
   {h:'', a:'', title:'Opta夺冠概率：法国15.87%超西班牙升第1', desc:'法国超越西班牙成为最大热门，阿英葡德分列3-6位。', extra:true},
+  {h:'', a:'', title:'RMC：葡萄牙主帅马丁内斯世界杯前已与沙特胜利展开谈判', desc:'葡萄牙主帅马丁内斯在世界杯开始前就已与沙特利雅得胜利俱乐部展开谈判。', extra:true},
 ];
 
 function generateHotTopics() {
